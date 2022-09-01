@@ -15,12 +15,7 @@ class GameFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val TAG = "game"
-    private val iv = binding.imageView
-    private val iv2 = binding.imageView2
-    private val iv3 = binding.imageView3
-    private val iv4 = binding.imageView4
-    private val gameText = binding.resultText
-    private val gameBtn = binding.gameBtn
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,14 +30,14 @@ class GameFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         listOf(
-            iv, iv2, iv3
+            binding.imageView, binding.imageView2, binding.imageView3,
         ).forEach { imageView ->
             imageView.setOnClickListener {
                 onClick(view as ImageView)
             }
         }
 
-        gameBtn.setOnClickListener {
+        binding.gameBtn.setOnClickListener {
             repeatGame()
         }
     }
@@ -54,31 +49,31 @@ class GameFragment : Fragment() {
         val randomList = listOf(1, 2, 3).shuffled()
         Log.d(TAG, randomList[0].toString())
         if (randomList[0] == 1) {
-            iv4.setImageResource(R.drawable.ic3)
-            iv4.visibility = View.VISIBLE
-            gameText.text = "You Won"
-            gameText.visibility = View.VISIBLE
+            binding.imageView4.setImageResource(R.drawable.ic3)
+            binding.imageView4.visibility = View.VISIBLE
+            binding.resultText.text = "You Won"
+            binding.resultText.visibility = View.VISIBLE
         } else {
-            iv4.setImageResource(R.drawable.ic1)
-            iv4.visibility = View.VISIBLE
-            gameText.text = "You Loose"
-            gameText.visibility = View.VISIBLE
+            binding.imageView4.setImageResource(R.drawable.ic1)
+            binding.imageView4.visibility = View.VISIBLE
+            binding.resultText.text = "You Loose"
+            binding.resultText.visibility = View.VISIBLE
         }
     }
 
     private fun showResult() {
-        iv.visibility = View.INVISIBLE
-        iv2.visibility = View.INVISIBLE
-        iv3.visibility = View.INVISIBLE
-        gameBtn.visibility = View.VISIBLE
+        binding.imageView.visibility = View.INVISIBLE
+        binding.imageView2.visibility = View.INVISIBLE
+        binding.imageView3.visibility = View.INVISIBLE
+        binding.gameBtn.visibility = View.VISIBLE
     }
 
     private fun repeatGame() {
-        iv.visibility = View.VISIBLE
-        iv2.visibility = View.VISIBLE
-        iv3.visibility = View.VISIBLE
-        gameBtn.visibility = View.INVISIBLE
-        gameText.visibility = View.INVISIBLE
+        binding.imageView.visibility = View.VISIBLE
+        binding.imageView2.visibility = View.VISIBLE
+        binding.imageView3.visibility = View.VISIBLE
+        binding.gameBtn.visibility = View.INVISIBLE
+        binding.gameBtn.visibility = View.INVISIBLE
     }
 
     override fun onDestroy() {

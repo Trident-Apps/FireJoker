@@ -27,7 +27,7 @@ class StartGameFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.startBtn.setOnClickListener {
-            findNavController().navigate(R.id.gameFragment)
+            findNavController().navigate(R.id.action_startGameFragment_to_gameFragment)
         }
     }
 
