@@ -1,6 +1,9 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.onesignal.androidsdk.onesignal-gradle-plugin'
+    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs'
 }
 
 android {
@@ -22,6 +25,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    buildFeatures {
+        viewBinding true
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -32,6 +38,31 @@ android {
 }
 
 dependencies {
+
+    //OneSignal
+    implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'
+
+    //AppsFlyer
+    implementation 'com.appsflyer:af-android-sdk:6.7.0'
+
+    //FacebookSDK
+    implementation 'com.facebook.android:facebook-android-sdk:14.1.0'
+
+    //Coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3'
+
+    // DataStore
+    implementation 'androidx.datastore:datastore-preferences:1.0.0'
+
+    //Google Advertising ID
+    implementation 'com.google.android.gms:play-services-ads-identifier:18.0.1'
+
+    //Navigation
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.1'
+    implementation 'androidx.navigation:navigation-ui:2.5.1'
+
+    //Splash Screen
+    implementation 'androidx.core:core-splashscreen:1.0.0'
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.0'

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loadingFragment">
+
+    <fragment
+        android:id="@+id/gameFragment"
+        android:name="mark.via.ui.fragments.GameFragment"
+        android:label="GameFragment" />
+    <fragment
+        android:id="@+id/loadingFragment"
+        android:name="mark.via.ui.fragments.LoadingFragment"
+        android:label="LoadingFragment" >
+        <action
+            android:id="@+id/action_loadingFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment" />
+        <action
+            android:id="@+id/action_loadingFragment_to_startGameFragment"
+            app:destination="@id/startGameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/startGameFragment"
+        android:name="mark.via.ui.fragments.StartGameFragment"
+        android:label="StartGameFragment" >
+        <action
+            android:id="@+id/action_startGameFragment_to_gameFragment"
+            app:destination="@id/gameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="mark.via.ui.fragments.WebViewFragment"
+        android:label="WebViewFragment" >
+        <argument
+            android:name="url"
+            app:argType="string" />
+    </fragment>
+</navigation>

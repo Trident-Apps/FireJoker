@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="mark.via">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,10 +14,14 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.FireJoker"
+        android:theme="@style/Theme.App.Starting"
+        android:usesCleartextTraffic="true"
+        tools:replace="android:fullBackupContent"
         tools:targetApi="31">
+
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.activities.NavHostActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,6 +29,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="com.facebook.sdk.ClientToken"
+            android:value="@string/facebook_client_token" />
     </application>
 
 </manifest>
