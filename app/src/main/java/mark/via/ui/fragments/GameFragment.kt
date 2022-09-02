@@ -33,31 +33,28 @@ class GameFragment : Fragment() {
             binding.imageView, binding.imageView2, binding.imageView3,
         ).forEach { imageView ->
             imageView.setOnClickListener {
-                onClick(view as ImageView)
+                playGame()
             }
         }
-
         binding.gameBtn.setOnClickListener {
             repeatGame()
         }
     }
 
-    private fun onClick(view: View) {
+    private fun playGame() {
 
         showResult()
-
         val randomList = listOf(1, 2, 3).shuffled()
-        Log.d(TAG, randomList[0].toString())
         if (randomList[0] == 1) {
+            binding.imageView4.visibility = View.VISIBLE
+            binding.resultText.visibility = View.VISIBLE
             binding.imageView4.setImageResource(R.drawable.ic3)
-            binding.imageView4.visibility = View.VISIBLE
             binding.resultText.text = "You Won"
-            binding.resultText.visibility = View.VISIBLE
         } else {
-            binding.imageView4.setImageResource(R.drawable.ic1)
             binding.imageView4.visibility = View.VISIBLE
-            binding.resultText.text = "You Loose"
             binding.resultText.visibility = View.VISIBLE
+            binding.imageView4.setImageResource(R.drawable.ic1)
+            binding.resultText.text = "You Loose"
         }
     }
 
@@ -72,6 +69,7 @@ class GameFragment : Fragment() {
         binding.imageView.visibility = View.VISIBLE
         binding.imageView2.visibility = View.VISIBLE
         binding.imageView3.visibility = View.VISIBLE
+        binding.imageView4.visibility = View.INVISIBLE
         binding.gameBtn.visibility = View.INVISIBLE
         binding.gameBtn.visibility = View.INVISIBLE
     }
