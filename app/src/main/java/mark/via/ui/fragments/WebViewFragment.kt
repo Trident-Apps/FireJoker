@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Message
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -146,24 +147,48 @@ class WebViewFragment : Fragment() {
         override fun onPageFinished(view: WebView?, url: String?) {
             super.onPageFinished(view, url)
             CookieManager.getInstance().flush()
-            when (url) {
-                BASE_URL -> {
-                    findNavController().navigate(R.id.startGameFragment)
-                }
-                else -> {
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        if (myViewModel.checkDatastoreValue(SHARED_PREF_NAME, requireContext())
-                                .isNullOrEmpty()
-                        ) {
-                            val datastoreKEy = stringPreferencesKey(SHARED_PREF_NAME)
-                            context!!.dataStore.edit {
-                                it[datastoreKEy] = "final"
-                            }
-                            myViewModel.saveLastUrl(url!!, context!!)
+            Log.d("MyTag", url.toString())
+
+            if (url == BASE_URL) {
+                findNavController().navigate(R.id.startGameFragment)
+                Log.d("MyTag", " checked base url")
+            } else {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    if (myViewModel.checkDatastoreValue(
+                            SHARED_PREF_NAME,
+                            requireContext()
+                        ).isNullOrEmpty()
+                    ) {
+                        Log.d("MyTag", " checked if dtastore empty")
+                        val dataStoreKey = stringPreferencesKey(SHARED_PREF_NAME)
+                        requireActivity().dataStore.edit { preference ->
+                            preference[dataStoreKey] = "final"
                         }
+                        myViewModel.saveLastUrl(url!!, requireActivity())
+                        Log.d("MyTag", "invoke url saving")
                     }
                 }
             }
+
+
+//            when (url) {
+//                BASE_URL -> {
+//                    findNavController().navigate(R.id.startGameFragment)
+//                }
+//                else -> {
+//                    lifecycleScope.launch(Dispatchers.IO) {
+//                        if (myViewModel.checkDatastoreValue(SHARED_PREF_NAME, requireContext())
+//                                .isNullOrEmpty()
+//                        ) {
+//                            val datastoreKEy = stringPreferencesKey(SHARED_PREF_NAME)
+//                            context!!.dataStore.edit {
+//                                it[datastoreKEy] = "final"
+//                            }
+//                            myViewModel.saveLastUrl(url!!, context!!)
+//                        }
+//                    }
+//                }
+//            }
         }
     }
 

@@ -63,7 +63,7 @@ class MyViewModel(app: Application) : AndroidViewModel(app) {
             }
 
         }, context!!)
-        AppsFlyerLib.getInstance().start(context!!)
+        AppsFlyerLib.getInstance().start(context)
     }
 
     suspend fun checkDatastoreValue(key: String, context: Context): String? {

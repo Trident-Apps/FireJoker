@@ -18,7 +18,7 @@ import mark.via.util.Const
 
 class LoadingFragment : Fragment(R.layout.fragment_loading) {
 
-    private val TAG = "My Tag"
+    private val TAG = "MyTag"
     private val checker = Checker()
     private lateinit var myViewModel: MyViewModel
 
@@ -38,23 +38,42 @@ class LoadingFragment : Fragment(R.layout.fragment_loading) {
             false -> {
                 Log.d(TAG, "checked Secure")
                 lifecycleScope.launch(Dispatchers.IO) {
-                    val dataStore = myViewModel.checkDatastoreValue(DATASTORE_KEY, requireContext())
-
-                    when (dataStore) {
-                        null -> {
-                            myViewModel.fetchDeeplink(requireActivity())
-                            lifecycleScope.launch(Dispatchers.Main) {
-                                myViewModel.urlLiveData.observe(viewLifecycleOwner) {
-                                    startWeb(it)
-                                }
+                    val dataStore = myViewModel.checkDatastoreValue(
+                        DATASTORE_KEY,
+                        this@LoadingFragment.requireActivity().applicationContext
+                    )
+                    Log.d(TAG, dataStore.toString())
+                    if (dataStore == null) {
+                        myViewModel.fetchDeeplink(this@LoadingFragment.requireContext())
+                        lifecycleScope.launch(Dispatchers.Main) {
+                            myViewModel.urlLiveData.observe(viewLifecycleOwner) {
+                                startWeb(it)
+                                Log.d(TAG, "stated web with new url")
                             }
                         }
-                        else -> {
-                            lifecycleScope.launch(Dispatchers.Main) {
-                                startWeb(dataStore.toString())
-                            }
+                    } else {
+                        lifecycleScope.launch(Dispatchers.Main) {
+                            startWeb(dataStore.toString())
+                            Log.d(TAG, "stated web with url fro dataStore")
                         }
                     }
+//                    when (dataStore) {
+//                        null -> {
+//                            myViewModel.fetchDeeplink(requireActivity())
+//                            lifecycleScope.launch(Dispatchers.Main) {
+//                                myViewModel.urlLiveData.observe(viewLifecycleOwner) {
+//                                    startWeb(it)
+//                                    Log.d(TAG, "stated web with new url")
+//                                }
+//                            }
+//                        }
+//                        else -> {
+//                            lifecycleScope.launch(Dispatchers.Main) {
+//                                startWeb(dataStore.toString())
+//                                Log.d(TAG, "stated web with url fro dataStore")
+//                            }
+//                        }
+//                    }
                 }
             }
         }
@@ -71,6 +90,6 @@ class LoadingFragment : Fragment(R.layout.fragment_loading) {
     }
 
     companion object {
-        const val DATASTORE_KEY = "finalUrl"
+        const val DATASTORE_KEY = "final"
     }
 }
