@@ -1,6 +1,7 @@
 package mark.via.util
 
 import android.app.Activity
+import android.content.Context
 import androidx.core.net.toUri
 import com.appsflyer.AppsFlyerLib
 import com.google.android.gms.ads.identifier.AdvertisingIdClient
@@ -11,10 +12,10 @@ class UriBuilder {
     fun createUrl(
         deepLink: String,
         data: MutableMap<String, Any>?,
-        activity: Activity
+        activity: Context?
     ): String {
         val gadId =
-            AdvertisingIdClient.getAdvertisingIdInfo(activity.applicationContext).id.toString()
+            AdvertisingIdClient.getAdvertisingIdInfo(activity?.applicationContext!!).id.toString()
 
         val url = Const.BASE_URL.toUri().buildUpon().apply {
             appendQueryParameter(Const.SECURE_GET_PARAMETR, Const.SECURE_KEY)

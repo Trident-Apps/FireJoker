@@ -30,7 +30,7 @@ class LoadingFragment : Fragment(R.layout.fragment_loading) {
         myViewModel = ViewModelProvider(this, myVmFactory)[MyViewModel::class.java]
         Log.d(TAG, "VM initialized")
 
-        when (checker.isDeviceSecured(this@LoadingFragment.requireActivity())) {
+        when (!checker.isDeviceSecured(this@LoadingFragment.requireActivity())) {
             true -> {
                 Log.d(TAG, "checked Secure")
                 startGame()
@@ -42,7 +42,7 @@ class LoadingFragment : Fragment(R.layout.fragment_loading) {
 
                     when (dataStore) {
                         null -> {
-                            myViewModel.fetchDeeplink(this@LoadingFragment.requireActivity())
+                            myViewModel.fetchDeeplink(requireActivity())
                             lifecycleScope.launch(Dispatchers.Main) {
                                 myViewModel.urlLiveData.observe(viewLifecycleOwner) {
                                     startWeb(it)

@@ -1,6 +1,5 @@
 package mark.via.ui.viewmodel
 
-import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.util.Log
@@ -25,33 +24,34 @@ class MyViewModel(app: Application) : AndroidViewModel(app) {
 
     val urlLiveData: MutableLiveData<String> = MutableLiveData()
 
-    fun fetchDeeplink(activity: Activity) {
+    fun fetchDeeplink(context: Context?) {
         Log.d(TAG, "started deep")
-        AppLinkData.fetchDeferredAppLinkData(activity) {
+        AppLinkData.fetchDeferredAppLinkData(context) {
             val deepLink = it?.targetUri.toString()
             Log.d(TAG, deepLink)
             if (deepLink == "null") {
-                fetchAppsData(activity)
+                fetchAppsData(context)
                 Log.d(TAG, "switched to apps")
             } else {
-                urlLiveData.postValue(builder.createUrl(deepLink, null, activity))
+                urlLiveData.postValue(builder.createUrl(deepLink, null, context))
                 sender.sendTag(deepLink, null)
                 Log.d(TAG, "created link from deep")
             }
         }
     }
 
-    private fun fetchAppsData(activity: Activity) {
+    private fun fetchAppsData(context: Context?) {
         Log.d(TAG, "started apps")
         AppsFlyerLib.getInstance().init(Const.APPS_DEV_KEY, object : AppsFlyerConversionListener {
             override fun onConversionDataSuccess(data: MutableMap<String, Any>?) {
-                urlLiveData.postValue(builder.createUrl("null", data, activity))
+                urlLiveData.postValue(builder.createUrl("null", data, context))
                 sender.sendTag("null", data)
                 Log.d(TAG, "created rul from apps")
             }
 
             override fun onConversionDataFail(p0: String?) {
-                TODO("Not yet implemented")
+                Log.d(TAG, "data fail")
+
             }
 
             override fun onAppOpenAttribution(p0: MutableMap<String, String>?) {
@@ -62,8 +62,8 @@ class MyViewModel(app: Application) : AndroidViewModel(app) {
                 TODO("Not yet implemented")
             }
 
-        }, activity)
-        AppsFlyerLib.getInstance().start(activity)
+        }, context!!)
+        AppsFlyerLib.getInstance().start(context!!)
     }
 
     suspend fun checkDatastoreValue(key: String, context: Context): String? {
