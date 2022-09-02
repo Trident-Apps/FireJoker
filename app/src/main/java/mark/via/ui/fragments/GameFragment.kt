@@ -1,7 +1,7 @@
 package mark.via.ui.fragments
 
+import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +13,6 @@ import mark.via.databinding.GameFragmentBinding
 class GameFragment : Fragment() {
     private var _binding: GameFragmentBinding? = null
     private val binding get() = _binding!!
-
-    private val TAG = "game"
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,7 +30,7 @@ class GameFragment : Fragment() {
             binding.imageView, binding.imageView2, binding.imageView3,
         ).forEach { imageView ->
             imageView.setOnClickListener {
-                playGame()
+                playGame(it as ImageView)
             }
         }
         binding.gameBtn.setOnClickListener {
@@ -41,20 +38,30 @@ class GameFragment : Fragment() {
         }
     }
 
-    private fun playGame() {
+    private fun playGame(view: View) {
 
-        showResult()
-        val randomList = listOf(1, 2, 3).shuffled()
-        if (randomList[0] == 1) {
-            binding.imageView4.visibility = View.VISIBLE
-            binding.resultText.visibility = View.VISIBLE
-            binding.imageView4.setImageResource(R.drawable.ic3)
-            binding.resultText.text = "You Won"
-        } else {
-            binding.imageView4.visibility = View.VISIBLE
-            binding.resultText.visibility = View.VISIBLE
-            binding.imageView4.setImageResource(R.drawable.ic1)
-            binding.resultText.text = "You Loose"
+        view.animate().apply {
+            duration = 1000
+            rotationYBy(360f)
+        }.withEndAction {
+            showResult()
+            val randomList = listOf(1, 2, 3).shuffled()
+            if (randomList[0] == 1) {
+                binding.imageView4.visibility = View.VISIBLE
+                binding.resultText.visibility = View.VISIBLE
+                binding.imageView4.setImageResource(R.drawable.ic3)
+                binding.resultText.text = resources.getString(R.string.won_text)
+                binding.resultText.setTextColor(
+                    Color.parseColor(resources.getString(R.string.won_color))
+                )
+            } else {
+                binding.imageView4.visibility = View.VISIBLE
+                binding.resultText.visibility = View.VISIBLE
+                binding.imageView4.setImageResource(R.drawable.ic1)
+                binding.resultText.text = resources.getString(R.string.loose_text)
+                binding.resultText.setTextColor(
+                    Color.parseColor(resources.getString(R.string.loose_color)))
+            }
         }
     }
 
@@ -70,6 +77,7 @@ class GameFragment : Fragment() {
         binding.imageView2.visibility = View.VISIBLE
         binding.imageView3.visibility = View.VISIBLE
         binding.imageView4.visibility = View.INVISIBLE
+        binding.resultText.visibility = View.INVISIBLE
         binding.gameBtn.visibility = View.INVISIBLE
         binding.gameBtn.visibility = View.INVISIBLE
     }

@@ -6,7 +6,13 @@
 
     <string name="start_game">Press to start a game</string>
     <string name="start_btn">Start</string>
+    <string name="repeat_btn">Try again?</string>
     <string name="victory">You Won!</string>
     <string name="game_text">Guess where is Joker</string>
+
+    <string name="won_color">#28B463</string>
+    <string name="loose_color">#E74C3C</string>
+    <string name="won_text">You Won</string>
+    <string name="loose_text">You loose</string>
 
 </resources>
